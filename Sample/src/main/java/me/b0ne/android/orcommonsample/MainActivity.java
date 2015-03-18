@@ -1,9 +1,12 @@
 package me.b0ne.android.orcommonsample;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import me.b0ne.android.orcommon.Utils;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +15,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String name1 = "This is string name1.";
+        Log.v("TEST",name1);
+        Log.v("TEST", Utils.md5String(name1));
     }
 
     @Override
