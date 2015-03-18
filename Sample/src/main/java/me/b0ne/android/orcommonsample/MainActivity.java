@@ -1,4 +1,4 @@
-package me.b0ne.android.orcommon;
+package me.b0ne.android.orcommonsample;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

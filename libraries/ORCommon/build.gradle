@@ -1,0 +1,52 @@
+apply plugin: 'android-library'
+version '0.1.0'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+        versionCode 1
+        versionName "1.0"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v13:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+
+    compile 'org.apache.httpcomponents:httpmime:4.2.6'
+    compile 'com.mcxiaoke.volley:library:1.0.+'
+}
+
+project.ext.outJar = 'sf-common-' + version + '.jar'
+task clearJar(type: Delete) {
+    delete 'jar-file/' + project.ext.outJar
+}
+
+task makeJar(type: Copy) {
+    from('build/bundles/release/')
+    into('jar-file/')
+    include('classes.jar')
+    rename ('classes.jar', project.ext.outJar)
+}
+
+makeJar.dependsOn(clearJar, build)

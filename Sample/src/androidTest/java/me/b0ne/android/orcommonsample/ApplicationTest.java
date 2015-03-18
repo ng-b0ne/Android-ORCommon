@@ -1,4 +1,4 @@
-package me.b0ne.android.orcommon;
+package me.b0ne.android.orcommonsample;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
