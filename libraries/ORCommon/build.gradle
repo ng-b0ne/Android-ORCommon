@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-version '0.1.0'
+version '0.2.0'
 
 repositories {
     mavenCentral()
@@ -37,7 +37,7 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.+'
 }
 
-project.ext.outJar = 'sf-common-' + version + '.jar'
+project.ext.outJar = 'orcommon-' + version + '.jar'
 task clearJar(type: Delete) {
     delete 'jar-file/' + project.ext.outJar
 }
