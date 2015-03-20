@@ -3,4 +3,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="menu_items">
+        <item>Optimize Bitmap</item>
+        <item>Image List</item>
+        <item>Utils</item>
+    </string-array>
 </resources>
