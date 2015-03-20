@@ -1,44 +1,38 @@
 package me.b0ne.android.orcommonsample;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
-    private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        String name1 = "This is string name1.";
-//        Log.v("TEST",name1);
-//        Log.v("TEST", Utils.md5String(name1));
+        setTitle(getResources().getString(R.string.app_name));
 
-        mListView = (ListView)findViewById(R.id.listview);
-        String[] items = getResources().getStringArray(R.array.menu_items);
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        mListView.setAdapter(itemsAdapter);
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.main_content, new MenuListFragment())
+                    .commit();
+        }
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
+            public void onBackStackChanged() {
+                ActionBar actionBar = getActionBar();
+                if (getFragmentManager().getBackStackEntryCount() == 0) {
+                    setTitle(getResources().getString(R.string.app_name));
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                } else {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
                 }
             }
         });
