@@ -2,6 +2,7 @@ package me.b0ne.android.orcommon;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,10 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,6 +28,10 @@ import java.util.HashMap;
 public class ImageUtils {
     public static final int IMAGE_OPTIMIZE_MAX_SIZE_WIDTH = 2000;
     public static final int IMAGE_OPTIMIZE_MAX_SIZE_HEIGHT = 2000;
+
+    private static ImageLoader mImageLoader;
+    private static final Object lock = new Object();
+    private static RequestQueue mQueue;
 
     /**
      * 画像の最適化、サイズ調整
@@ -282,6 +291,27 @@ public class ImageUtils {
 
         return contentResolver.insert(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+    }
+
+    public static RequestQueue getReqQueue(final Context context) {
+        synchronized (lock) {
+            if (mQueue == null) {
+                mQueue = Volley.newRequestQueue(context);
+            }
+            return mQueue;
+        }
+    }
+
+    /**
+     * ImageLoaderのシングルトン生成
+     * @param context
+     * @return
+     */
+    public static ImageLoader getImageLoader(final Context context) {
+        if (mImageLoader == null) {
+            mImageLoader = new ImageLoader(getReqQueue(context), new BitmapCache());
+        }
+        return mImageLoader;
     }
 }
 
