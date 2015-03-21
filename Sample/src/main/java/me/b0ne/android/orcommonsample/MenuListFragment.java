@@ -1,8 +1,11 @@
 package me.b0ne.android.orcommonsample;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,8 @@ public class MenuListFragment extends Fragment {
     private Context mContext;
     private ListView mListView;
 
+    private static final int REQUEST_CODE_GET_IMAGE = 1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.menu_list, container, false);
@@ -32,7 +37,7 @@ public class MenuListFragment extends Fragment {
 
         final String[] items = getResources().getStringArray(R.array.menu_items);
         ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, items);
+                new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, items);
         mListView.setAdapter(itemsAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -42,7 +47,8 @@ public class MenuListFragment extends Fragment {
                 Fragment fragment = new Fragment();
                 switch (position) {
                     case 0:
-                        break;
+                        selectImage();
+                        return;
                     case 1:
                         break;
                     case 2:
@@ -51,12 +57,40 @@ public class MenuListFragment extends Fragment {
 //                getFragmentManager().beginTransaction()
 //                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 //                        .replace(R.id.ma)
+//                        .addToBackStack(null)
+//                        .commit();
 
                 getActivity().setTitle(title);
             }
         });
 
-
     }
 
+    private void selectImage() {
+        Intent intent = new Intent( Intent.ACTION_GET_CONTENT );
+        intent.setType("image/*");
+
+        Intent chooser = Intent.createChooser(intent, "Select image");
+        startActivityForResult(chooser, REQUEST_CODE_GET_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_CODE_GET_IMAGE) {
+                Bundle args = new Bundle();
+                args.putString("img_uri", data.getData().toString());
+                OptimizeBitmapFragment optimizeBitmapFragment = new OptimizeBitmapFragment();
+                optimizeBitmapFragment.setArguments(args);
+
+                getFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.main_content, optimizeBitmapFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
+    }
 }
