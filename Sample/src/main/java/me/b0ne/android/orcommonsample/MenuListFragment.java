@@ -50,15 +50,16 @@ public class MenuListFragment extends Fragment {
                         selectImage();
                         return;
                     case 1:
+                        fragment = new ImageListFragment();
                         break;
                     case 2:
                         break;
                 }
-//                getFragmentManager().beginTransaction()
-//                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//                        .replace(R.id.ma)
-//                        .addToBackStack(null)
-//                        .commit();
+                getFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.main_content, fragment)
+                        .addToBackStack(null)
+                        .commit();
 
                 getActivity().setTitle(title);
             }
