@@ -1,11 +1,18 @@
 package me.b0ne.android.orcommonsample;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.HashMap;
+
+import me.b0ne.android.orcommon.ImageUtils;
 
 /**
  * Created by b0ne on 2015/03/22.
@@ -17,11 +24,9 @@ public class ImageListAdapter extends ArrayAdapter<HashMap<String, String>> {
     public ImageListAdapter(Context context) {
         super(context, 0);
 
-//        RequestQueue queue = Volley.newRequestQueue(context);
-//        mImageLoader = ImageUtils
+        mImageLoader = ImageUtils.getImageLoader(context);
     }
 
-    /*
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
@@ -42,5 +47,4 @@ public class ImageListAdapter extends ArrayAdapter<HashMap<String, String>> {
 
         return view;
     }
-    */
 }
