@@ -45,11 +45,22 @@ public class UtilsFragment extends Fragment {
             Log.v("TEST", showResult);
         }
 
-        // Utils.md5String Sample
+        // Utils.md5String and sha256String Sample
         String originText = "This is origin text.";
         Log.v("TEST", "origin text = " + originText);
         Log.v("TEST", "md5 text = " + Utils.md5String(originText));
+        Log.v("TEST", "sha256 text = " + Utils.sha256String(originText));
 
+        // Utils.isMatchHttpUrl Sample
+        String string1 = "https://twitter.com";
+        String string2 = "twitter";
+        Log.v("TEST", "Is match url1 : " + Utils.isMatchHttpUrl(string1));
+        Log.v("TEST", "Is match url2 : " + Utils.isMatchHttpUrl(string2));
+
+        // Utils.replaceAll Sample
+        String sampleText = "be together. not the same. Android... be yourself. do your thing. see what's up. Android";
+        Log.v("TEST", sampleText);
+        Log.v("TEST", Utils.replaceAll(sampleText, "Android", "XXXXXXX"));
 
     }
 }
