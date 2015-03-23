@@ -2,7 +2,12 @@
 A common library in some cases useful behavior for Android App.
 
 # What can?
-...
+Read code in [Sample module](Sample) for part of the sample how to use.
+### [BitmapCache](libraries/ORCommon/src/main/java/me/b0ne/android/orcommon/BitmapCache.java)
+### [CDDialogFragment](libraries/ORCommon/src/main/java/me/b0ne/android/orcommon/CDDialogFragment.java)
+### [KVStorage](libraries/ORCommon/src/main/java/me/b0ne/android/orcommon/KVStorage.java)
+### [SimpleRequest](libraries/ORCommon/src/main/java/me/b0ne/android/orcommon/SimpleRequest.java)
+### [Utils](libraries/ORCommon/src/main/java/me/b0ne/android/orcommon/Utils.java)
 
 # Build .jar file
 Build .jar file by gradle. You can see setting in [build.gradle of library](libraries/ORCommon/build.gradle)
