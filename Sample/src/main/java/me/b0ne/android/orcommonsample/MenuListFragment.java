@@ -53,6 +53,7 @@ public class MenuListFragment extends Fragment {
                         fragment = new ImageListFragment();
                         break;
                     case 2:
+                        fragment = new UtilsFragment();
                         break;
                 }
                 getFragmentManager().beginTransaction()
