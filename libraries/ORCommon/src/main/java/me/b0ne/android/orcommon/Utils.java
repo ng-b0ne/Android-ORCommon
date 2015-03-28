@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.view.Display;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -182,5 +183,13 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static void showShortToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showLongToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }
