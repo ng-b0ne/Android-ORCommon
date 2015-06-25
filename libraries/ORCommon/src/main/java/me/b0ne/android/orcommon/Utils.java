@@ -149,9 +149,16 @@ public class Utils {
      * @param activity
      * @param url
      */
+    @Deprecated
     public static void gotoWeb(Activity activity, String url) {
+        gotoWeb(activity.getApplicationContext(), url);
+    }
+
+    public static void gotoWeb(Context context, String url) {
         Uri uri = Uri.parse(url);
-        activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     /**
