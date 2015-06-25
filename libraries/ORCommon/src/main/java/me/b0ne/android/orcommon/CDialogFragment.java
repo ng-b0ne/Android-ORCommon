@@ -28,11 +28,11 @@ public class CDialogFragment extends DialogFragment implements DialogInterface.O
 
     private static final int DEFAULT_INT_VALUE = 0;
 
-    private CommonDialogListener mListener = null;
+    private CDialogListener mListener = null;
     private View mDialogView;
 
     // interface
-    public interface CommonDialogListener {
+    public interface CDialogListener {
         public void onPositiveBtnClick(String tag);
         public void onNeutralBtnClick(String tag);
         public void onNegativeBtnClick(String tag);
@@ -55,10 +55,10 @@ public class CDialogFragment extends DialogFragment implements DialogInterface.O
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof  CommonDialogListener == false) {
-            throw new ClassCastException("Activity not implements CommonDialogListener.");
+        if (activity instanceof CDialogListener == false) {
+            throw new ClassCastException("Activity not implements CDialogListener.");
         }
-        mListener = (CommonDialogListener)activity;
+        mListener = (CDialogListener)activity;
     }
 
     @Override
