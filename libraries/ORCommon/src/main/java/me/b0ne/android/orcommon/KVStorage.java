@@ -81,7 +81,7 @@ public class KVStorage {
         return mSharedPreferences.getInt(key, 0);
     }
 
-    public void seveLong(String key, long value) {
+    public void saveLong(String key, long value) {
         SharedPreferences.Editor editor = getEditor();
         editor.putLong(key, value).commit();
     }

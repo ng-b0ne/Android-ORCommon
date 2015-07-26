@@ -70,6 +70,7 @@ public class MenuListFragment extends Fragment {
 
     private void selectImage() {
         Intent intent = new Intent( Intent.ACTION_GET_CONTENT );
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
 
         Intent chooser = Intent.createChooser(intent, "Select image");

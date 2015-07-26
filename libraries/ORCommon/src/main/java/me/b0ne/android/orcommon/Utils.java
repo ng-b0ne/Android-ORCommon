@@ -149,7 +149,6 @@ public class Utils {
      * @param activity
      * @param url
      */
-    @Deprecated
     public static void gotoWeb(Activity activity, String url) {
         gotoWeb(activity.getApplicationContext(), url);
     }

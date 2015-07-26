@@ -218,7 +218,9 @@ public class ImageUtils {
                 MediaStore.Images.Media.ORIENTATION,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.SIZE,
-                MediaStore.Images.Media.DATA};
+                MediaStore.Images.Media.DATA,
+                };
+
         Cursor c = cr.query(imageUri, columns, null, null, null);
         c.moveToFirst();
         result.put(MediaStore.Images.Media.ORIENTATION, String.valueOf(c.getInt(0)));
