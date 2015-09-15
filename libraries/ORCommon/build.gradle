@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-version '0.2.2'
+version '0.3.1'
 
 repositories {
     mavenCentral()
@@ -30,11 +30,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v13:22.2.0'
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:support-v13:22.2.1'
+    compile 'com.android.support:appcompat-v7:22.2.1'
 
     compile 'org.apache.httpcomponents:httpmime:4.2.6'
-    compile 'com.mcxiaoke.volley:library:1.0.+'
 }
 
 project.ext.outJar = 'orcommon-' + version + '.jar'
