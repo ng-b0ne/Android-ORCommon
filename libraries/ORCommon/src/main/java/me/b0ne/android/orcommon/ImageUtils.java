@@ -24,17 +24,23 @@ public class ImageUtils {
     public static final int IMAGE_OPTIMIZE_MAX_SIZE_WIDTH = 2000;
     public static final int IMAGE_OPTIMIZE_MAX_SIZE_HEIGHT = 2000;
 
+
     /**
-     * 画像の最適化、サイズ調整
      * @param cr
      * @param imageUri
      * @param maxWidth
+     * @param maxHeight
      * @return
      */
     public static Bitmap optimizeBitmap(ContentResolver cr, Uri imageUri, int maxWidth, int maxHeight) {
         Bitmap bitmap = null;
         HashMap<String, String> imgObj = getImageData(cr, imageUri);
-        String imgPath = imgObj.get(MediaStore.Images.Media.DATA);
+        String imgPath;
+        if (imgObj != null) {
+            imgPath = imgObj.get(MediaStore.Images.Media.DATA);
+        } else  {
+            imgPath = imageUri.getPath();
+        }
 
         try {
             InputStream inputStream = cr.openInputStream(imageUri);
@@ -43,13 +49,12 @@ public class ImageUtils {
             BitmapFactory.Options imageOptions = new BitmapFactory.Options();
             imageOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(inputStream, null, imageOptions);
-
             inputStream.close();
+            inputStream = cr.openInputStream(imageUri);
 
             // もし、画像が大きかったら縮小して読み込む
             // imageScaleSizeMaxの大きさに合わせる
             int imageScaleSizeMax = 500;
-            inputStream = cr.openInputStream(imageUri);
             float imageScaleWidth = (float)imageOptions.outWidth / imageScaleSizeMax;
             float imageScaleHeight = (float)imageOptions.outHeight / imageScaleSizeMax;
 
@@ -112,25 +117,21 @@ public class ImageUtils {
                 if (_imgWidth <= maxWidth) {
                     return bitmap;
                 } else { // 大きかったら最大幅までリサイズする。
-                    float _newWidth = maxWidth;
                     float ratioSize = _imgWidth / _imgHeight;
-                    float _newHeight = _newWidth / ratioSize;
-                    int newWidth = maxWidth;
+                    float _newHeight = maxWidth / ratioSize;
                     int newHeight = Integer.valueOf(String.valueOf(Math.round(_newHeight)));
 
-                    bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, maxWidth, newHeight, true);
                 }
             } else if (maxHeight != 0) { // 最大高さが指定されているとき
                 if (_imgHeight <= maxHeight) {
                     return bitmap;
                 } else {
-                    float _newHeight = maxHeight;
                     float ratioSize = _imgHeight / _imgWidth;
-                    float _newWidth = _newHeight / ratioSize;
-                    int newHeight = maxHeight;
+                    float _newWidth = maxHeight / ratioSize;
                     int newWidth = Integer.valueOf(String.valueOf(Math.round(_newWidth)));
 
-                    bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, maxHeight, true);
                 }
             }
 
@@ -204,23 +205,26 @@ public class ImageUtils {
      * @return
      */
     public static HashMap<String, String> getImageData(ContentResolver cr, Uri imageUri) {
-        HashMap<String, String> result = new HashMap<String, String>();
         String[] columns = {
                 MediaStore.Images.Media.ORIENTATION,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.SIZE,
                 MediaStore.Images.Media.DATA,
                 };
-
         Cursor c = cr.query(imageUri, columns, null, null, null);
-        c.moveToFirst();
-        result.put(MediaStore.Images.Media.ORIENTATION, String.valueOf(c.getInt(0)));
-        result.put(MediaStore.Images.Media.DISPLAY_NAME, c.getString(1));
-        result.put(MediaStore.Images.Media.SIZE, String.valueOf(c.getLong(2)));
-        result.put(MediaStore.Images.Media.DATA, String.valueOf(c.getString(3)));
-        c.close();
+        if (c == null) return null;
 
-        return result;
+        if (c.moveToFirst()) {
+            HashMap<String, String> result = new HashMap<>();
+            result.put(MediaStore.Images.Media.ORIENTATION, String.valueOf(c.getInt(0)));
+            result.put(MediaStore.Images.Media.DISPLAY_NAME, c.getString(1));
+            result.put(MediaStore.Images.Media.SIZE, String.valueOf(c.getLong(2)));
+            result.put(MediaStore.Images.Media.DATA, String.valueOf(c.getString(3)));
+            c.close();
+            return result;
+        }
+
+        return null;
     }
 
     /**
@@ -233,7 +237,7 @@ public class ImageUtils {
         long currentTime = System.currentTimeMillis();
         String title = String.valueOf(currentTime);
         String dirPath = Utils.getDirectoryPath(saveDirName);
-        String fileName = "toflea_" + title + ".jpg";
+        String fileName = title + ".jpg";
         String path = dirPath + "/" + fileName;
 
         fileValues.put(MediaStore.Images.Media.TITLE, title);

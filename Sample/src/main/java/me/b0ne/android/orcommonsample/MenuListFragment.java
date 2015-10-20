@@ -50,7 +50,6 @@ public class MenuListFragment extends Fragment {
                         selectImage();
                         return;
                     case 1:
-                        fragment = new ImageListFragment();
                         break;
                     case 2:
                         fragment = new UtilsFragment();
