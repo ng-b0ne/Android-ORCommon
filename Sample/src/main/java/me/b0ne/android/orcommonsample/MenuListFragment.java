@@ -1,10 +1,10 @@
 package me.b0ne.android.orcommonsample;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +22,7 @@ public class MenuListFragment extends Fragment {
     private ListView mListView;
 
     private static final int REQUEST_CODE_GET_IMAGE = 1;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,10 +83,8 @@ public class MenuListFragment extends Fragment {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CODE_GET_IMAGE) {
-                Bundle args = new Bundle();
-                args.putString("img_uri", data.getData().toString());
-                OptimizeBitmapFragment optimizeBitmapFragment = new OptimizeBitmapFragment();
-                optimizeBitmapFragment.setArguments(args);
+                OptimizeBitmapFragment optimizeBitmapFragment
+                        = OptimizeBitmapFragment.newInstance(data.getData());
 
                 getFragmentManager().beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

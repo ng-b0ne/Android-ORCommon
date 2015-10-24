@@ -1,9 +1,12 @@
 package me.b0ne.android.orcommonsample;
 
-import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,13 +21,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFragmentManager = getFragmentManager();
+        mFragmentManager = getSupportFragmentManager();
         setTitle(getResources().getString(R.string.app_name));
 
+        Intent intent = getIntent();
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.main_content, new MenuListFragment())
-                    .commit();
+            if (intent != null && intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEND)) {
+                if (intent.getType().startsWith("image/")) {
+                    Uri imgUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                    Log.v("TEST", "EXTRA_STREAM = " + imgUri);
+                    mFragmentManager.beginTransaction()
+                            .replace(R.id.main_content, OptimizeBitmapFragment.newInstance(imgUri))
+                            .commit();
+                }
+            } else {
+
+                    mFragmentManager.beginTransaction()
+                            .replace(R.id.main_content, new MenuListFragment())
+                            .commit();
+                }
         }
 
         mFragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {

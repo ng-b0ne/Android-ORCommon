@@ -138,7 +138,7 @@ public class Utils {
      * @param context
      * @param view
      */
-    public static void cloaseKeyBoard(Context context, View view) {
+    public static void closeKeyBoard(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
