@@ -2,6 +2,11 @@ package me.b0ne.android.orcommon;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by b0ne on 14/01/06.
@@ -88,6 +93,23 @@ public class KVStorage {
 
     public long getLong(String key) {
         return mSharedPreferences.getLong(key, 0);
+    }
+
+    public void saveBitmap(String key, Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 98, baos);
+        String bitmapStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+
+        SharedPreferences.Editor editor = getEditor();
+        editor.putString(key, bitmapStr).commit();
+    }
+
+    public Bitmap getBitmap(String key) {
+        String bitmapString = mSharedPreferences.getString(key, null);
+        if (bitmapString == null) return null;
+
+        byte[] b = Base64.decode(bitmapString, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(b, 0, b.length).copy(Bitmap.Config.ARGB_8888, true);
     }
 
     public void remove(String key) {

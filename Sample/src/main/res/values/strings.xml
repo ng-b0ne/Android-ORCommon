@@ -6,25 +6,8 @@
 
     <string-array name="menu_items">
         <item>Optimize Bitmap</item>
-        <item>Image List</item>
+        <item>Draft Image</item>
         <item>Utils</item>
     </string-array>
 
-    <string-array name="sample_img_url_list">
-        <item>http://file.photo.b0ne.me/Img/1378032905/</item>
-        <item>http://file.photo.b0ne.me/Img/1375354337/</item>
-        <item>http://file.photo.b0ne.me/Img/1365982999/</item>
-        <item>http://file.photo.b0ne.me/Img/1360826223/</item>
-        <item>http://file.photo.b0ne.me/Img/1387094263/</item>
-        <item>http://file.photo.b0ne.me/Img/1388766806/</item>
-        <item>http://file.photo.b0ne.me/Img/1378005126/</item>
-        <item>http://file.photo.b0ne.me/Img/1377002098/</item>
-        <item>http://file.photo.b0ne.me/Img/1362057629/</item>
-        <item>http://file.photo.b0ne.me/Img/1366608112/</item>
-        <item>http://file.photo.b0ne.me/Img/1361697309/</item>
-        <item>http://file.photo.b0ne.me/Img/1388804404/</item>
-        <item>http://file.photo.b0ne.me/Img/1381753745/</item>
-        <item>http://file.photo.b0ne.me/Img/1388575170/</item>
-        <item>http://file.photo.b0ne.me/Img/1381064335/</item>
-    </string-array>
 </resources>
