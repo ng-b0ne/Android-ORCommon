@@ -142,6 +142,45 @@ public class ImageUtils {
         return bitmap;
     }
 
+    public static Bitmap optimizeBitmap(Bitmap bitmap, int maxWidth, int maxHeight) {
+        float _imgWidth = bitmap.getWidth();
+        float _imgHeight = bitmap.getHeight();
+
+        // 最大幅が指定されているとき
+        if (maxWidth != 0) {
+            // 最大幅より小さかったらそのまま返す。 大きかったら最大幅までリサイズする。
+            if (_imgWidth <= maxWidth) {
+                return bitmap;
+            } else { // 大きかったら最大幅までリサイズする。
+                float ratioSize = _imgWidth / _imgHeight;
+                float _newHeight = maxWidth / ratioSize;
+                int newHeight = Integer.valueOf(String.valueOf(Math.round(_newHeight)));
+
+                bitmap = Bitmap.createScaledBitmap(bitmap, maxWidth, newHeight, true);
+            }
+        } else if (maxHeight != 0) { // 最大高さが指定されているとき
+            if (_imgHeight <= maxHeight) {
+                return bitmap;
+            } else {
+                float ratioSize = _imgHeight / _imgWidth;
+                float _newWidth = maxHeight / ratioSize;
+                int newWidth = Integer.valueOf(String.valueOf(Math.round(_newWidth)));
+
+                bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, maxHeight, true);
+            }
+        }
+        return bitmap;
+    }
+
+    public static Bitmap optimizeBitmap(Bitmap bitmap) {
+        return optimizeBitmap(bitmap,
+                IMAGE_OPTIMIZE_MAX_SIZE_WIDTH, IMAGE_OPTIMIZE_MAX_SIZE_HEIGHT);
+    }
+
+    public static Bitmap optimizeBitmap(Bitmap bitmap, int width) {
+        return optimizeBitmap(bitmap, width, IMAGE_OPTIMIZE_MAX_SIZE_HEIGHT);
+    }
+
     /**
      * 画像の最適化、サイズ調整
      * @param cr
@@ -186,6 +225,21 @@ public class ImageUtils {
         try {
             Bitmap bitmap = optimizeBitmap(cr, imageUri, maxWidth, maxHeight);
 
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 97, os);
+            bitmap.recycle();
+            inputStreamResult = new ByteArrayInputStream(os.toByteArray());
+            os.close();
+        } catch (Exception e) {
+            Log.e("ERROR", e.getMessage());
+        }
+
+        return inputStreamResult;
+    }
+
+    public static InputStream optimizeBitmapToInputStream(Bitmap bitmap) {
+        InputStream inputStreamResult = null;
+        try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 97, os);
             bitmap.recycle();

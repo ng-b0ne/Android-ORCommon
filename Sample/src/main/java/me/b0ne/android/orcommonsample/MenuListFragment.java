@@ -13,8 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import me.b0ne.android.orcommon.KVStorage;
-
 /**
  * Created by b0ne on 2015/03/21.
  */
@@ -37,7 +35,6 @@ public class MenuListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mContext = getActivity().getApplicationContext();
-        KVStorage storage = new KVStorage(mContext);
 
         final String[] items = getResources().getStringArray(R.array.menu_items);
         ArrayAdapter<String> itemsAdapter =

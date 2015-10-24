@@ -81,8 +81,11 @@ public class OptimizeBitmapFragment extends Fragment {
 //        imgSmall.setImageBitmap(bitmapSmall);
         } else if (savedImgKey != null) {
             Bitmap bitmap = kvStorage.getBitmap(savedImgKey);
-            Log.v("TEST", "view img from savedImgKey :" + savedImgKey + " : " + bitmap );
+            Log.v("TEST", "view img from savedImgKey :" + savedImgKey + " : " + bitmap);
             imgLarge.setImageBitmap(bitmap);
+
+            Bitmap bitmapSmall = ImageUtils.optimizeBitmap(bitmap, 400);
+            imgSmall.setImageBitmap(bitmapSmall);
         }
 
     }
