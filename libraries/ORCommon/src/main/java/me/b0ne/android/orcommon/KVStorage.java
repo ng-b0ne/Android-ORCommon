@@ -96,11 +96,15 @@ public class KVStorage {
     }
 
     public void saveBitmap(String key, Bitmap bitmap) {
+        SharedPreferences.Editor editor = getEditor();
+        if (bitmap == null) {
+            editor.putString(key, null).commit();
+            return;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 98, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 98, baos);
         String bitmapStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
-        SharedPreferences.Editor editor = getEditor();
         editor.putString(key, bitmapStr).commit();
     }
 
